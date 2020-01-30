@@ -37,8 +37,8 @@ class TurnstileHandler : Turnstile {
 
     fun updateViewState() {
         val text = when (fsm.currentState()) {
-            TurnstileState.LOCKED  -> "Locked"
-            TurnstileState.UNLOCED -> "Unlocked"
+            TurnstileState.LOCKED   -> "Locked"
+            TurnstileState.UNLOCKED -> "Unlocked"
         }
         turnstileState.textContent = text
         TurnstileEvent.values().forEach { event ->

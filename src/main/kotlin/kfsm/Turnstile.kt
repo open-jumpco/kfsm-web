@@ -18,7 +18,7 @@ enum class TurnstileEvent {
 
 enum class TurnstileState {
     LOCKED,
-    UNLOCED
+    UNLOCKED
 }
 
 class TurnstileFSM(val turnstile: Turnstile) {
@@ -27,18 +27,18 @@ class TurnstileFSM(val turnstile: Turnstile) {
             TurnstileState.values().toSet(),
             TurnstileEvent.values().toSet(), Turnstile::class
         ) {
-            initialState { if (locked) TurnstileState.LOCKED else TurnstileState.UNLOCED }
+            initialState { if (locked) TurnstileState.LOCKED else TurnstileState.UNLOCKED }
             default {
                 action { _, _, _ ->
                     alarm()
                 }
             }
             whenState(TurnstileState.LOCKED) {
-                onEvent(TurnstileEvent.COIN to TurnstileState.UNLOCED) {
+                onEvent(TurnstileEvent.COIN to TurnstileState.UNLOCKED) {
                     unlock()
                 }
             }
-            whenState(TurnstileState.UNLOCED) {
+            whenState(TurnstileState.UNLOCKED) {
                 onEvent(TurnstileEvent.PASS to TurnstileState.LOCKED) {
                     lock()
                 }
