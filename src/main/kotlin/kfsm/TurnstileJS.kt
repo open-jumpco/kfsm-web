@@ -88,10 +88,8 @@ class TurnstileHandler : Turnstile {
     }
 }
 
-lateinit var handler: TurnstileHandler
-
 fun main() {
-    handler = TurnstileHandler()
+    val handler = TurnstileHandler()
     console.log("Handler init")
     handler.updateViewState()
 }
