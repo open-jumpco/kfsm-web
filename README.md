@@ -11,3 +11,8 @@ This implementation uses Kotlin code to manipulate the register event handlers o
 
 All the files needed to run will be in `build/dist`
 
+Or you can launch it using
+
+```bash
+./gradlew browserRun
+```
