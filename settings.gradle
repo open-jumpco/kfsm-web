@@ -1,2 +1,0 @@
-rootProject.name = 'kfsm-web'
-include(':app1', ':app2')
