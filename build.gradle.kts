@@ -1,8 +1,21 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
-
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.jumpco.kfsm.open:kfsm-viz-plugin:1.0.3")
+    }
+}
 plugins {
     id("org.jetbrains.kotlin.js") version "1.3.61"
 }
+
+apply(plugin = "io.jumpco.open.kfsm.viz-plugin")
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
@@ -37,4 +50,15 @@ tasks {
 }
 val assemble by tasks.existing {
     dependsOn("copyAssets")
+    dependsOn("generateFsmViz")
+}
+
+configure<io.jumpco.open.kfsm.gradle.VizPluginExtension> {
+    fsm("TurnstileFSM") {
+        outputFolder = file("generated")
+        input = file("src/main/kotlin/kfsm/Turnstile.kt")
+        isGeneratePlantUml = true // Required default is false
+        isGenerateAsciidoc = true // Required default is false
+        output = "turnstile"
+    }
 }

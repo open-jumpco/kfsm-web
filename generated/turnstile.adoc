@@ -1,0 +1,23 @@
+== TurnstileFSM State Chart
+
+=== TurnstileFSM State Map
+
+|===
+| Start | Event[Guard] | Target | Action
+
+| LOCKED
+| COIN
+| UNLOCKED
+|  `{unlock()}`
+
+| UNLOCKED
+| PASS
+| LOCKED
+|  `{lock()}`
+
+| UNLOCKED
+| COIN
+| UNLOCKED
+|  `{returnCoin()}`
+|===
+

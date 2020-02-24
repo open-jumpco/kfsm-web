@@ -16,3 +16,33 @@ Or you can launch it using
 ```bash
 ./gradlew browserRun
 ```
+
+## Generated State Table
+
+== TurnstileFSM State Chart
+
+=== TurnstileFSM State Map
+
+|===
+| Start | Event[Guard] | Target | Action
+
+| LOCKED
+| COIN
+| UNLOCKED
+|  `{unlock()}`
+
+| UNLOCKED
+| PASS
+| LOCKED
+|  `{lock()}`
+
+| UNLOCKED
+| COIN
+| UNLOCKED
+|  `{returnCoin()}`
+|===
+
+## Generated State Diagram
+
+image:turnstile.png[]
+
