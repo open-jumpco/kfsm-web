@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("io.jumpco.kfsm.open:kfsm-viz-plugin:1.0.3")
+        classpath("io.jumpco.kfsm.open:kfsm-viz-plugin:1.0.4-SNAPSHOT")
     }
 }
 plugins {
