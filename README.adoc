@@ -1,4 +1,4 @@
-# KFSM Turnstile Sample for Browser
+= KFSM Turnstile Sample for Browser
 
 A simple application to demonstrate implementing [KFSM](https://github.com/open-jumpco/kfsm) with the classic Turnstile FSM.
 
@@ -17,9 +17,7 @@ Or you can launch it using
 ./gradlew browserRun
 ```
 
-## Generated State Table
-
-== TurnstileFSM State Chart
+== Generated State Table
 
 === TurnstileFSM State Map
 
@@ -42,7 +40,7 @@ Or you can launch it using
 |  `{returnCoin()}`
 |===
 
-## Generated State Diagram
+=== Generated State Diagram
 
 image:turnstile.png[]
 
