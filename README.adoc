@@ -16,6 +16,43 @@ Or you can launch it using
 ./gradlew browserRun
 ```
 
+This FSM has been updated to support a timeout.
+
+The Turnstile will only remain unlocked for 3000ms and then the timeout will be triggered.
+
+The FSM DSL is as follows:
+
+[source,kotlin]
+----
+asyncStateMachine(
+    TurnstileState.values().toSet(),
+    TurnstileEvent.values().toSet(),
+    Turnstile::class
+) {
+    initialState { if (locked) TurnstileState.LOCKED else TurnstileState.UNLOCKED }
+    default {
+        action { _, _, _ ->
+            alarm()
+        }
+    }
+    whenState(TurnstileState.LOCKED) {
+        onEvent(TurnstileEvent.COIN to TurnstileState.UNLOCKED) {
+            unlock()
+        }
+    }
+    whenState(TurnstileState.UNLOCKED) {
+        onEvent(TurnstileEvent.PASS to TurnstileState.LOCKED) {
+            lock()
+        }
+        onEvent(TurnstileEvent.COIN) {
+            returnCoin()
+        }
+        timeout(LOCKED, 3000) {
+            timeout()
+        }
+    }
+}
+----
 == Generated State Table
 
 === TurnstileFSM State Map
@@ -26,17 +63,42 @@ Or you can launch it using
 | LOCKED
 | COIN
 | UNLOCKED
-|  `{unlock()}`
+a| [source,kotlin]
+----
+{
+unlock()
+}
+----
 
 | UNLOCKED
 | PASS
 | LOCKED
-|  `{lock()}`
+a| [source,kotlin]
+----
+{
+lock()
+}
+----
 
 | UNLOCKED
 | COIN
 | UNLOCKED
-|  `{returnCoin()}`
+a| [source,kotlin]
+----
+{
+returnCoin()
+}
+----
+
+| UNLOCKED
+| <<timeout>>[3000]
+| LOCKED
+a| [source,kotlin]
+----
+{
+timeout()
+}
+----
 |===
 
 === Generated State Diagram
