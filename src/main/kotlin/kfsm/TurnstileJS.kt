@@ -4,6 +4,9 @@ import com.example.kfsm.Turnstile
 import com.example.kfsm.TurnstileEvent
 import com.example.kfsm.TurnstileFSM
 import com.example.kfsm.TurnstileState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLSpanElement
 import kotlin.browser.document
@@ -26,30 +29,30 @@ class TurnstileHandler : Turnstile {
         coinButton = document.getElementById("coinButton") as HTMLButtonElement
         passButton = document.getElementById("passButton") as HTMLButtonElement
         coinButton.addEventListener("click", {
-            fsm.coin()
-            updateViewState()
+            GlobalScope.launch { fsm.coin() }
         })
         passButton.addEventListener("click", {
-            fsm.pass()
-            updateViewState()
+            GlobalScope.launch { fsm.pass() }
         })
     }
 
-    fun updateViewState() {
-        val text = when (fsm.currentState()) {
-            TurnstileState.LOCKED   -> "Locked"
-            TurnstileState.UNLOCKED -> "Unlocked"
-        }
-        turnstileState.textContent = text
-        TurnstileEvent.values().forEach { event ->
-            when (event) {
-                TurnstileEvent.PASS -> passButton.disabled = !fsm.allowed(event)
-                TurnstileEvent.COIN -> coinButton.disabled = !fsm.allowed(event)
+    suspend fun updateViewState() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val text = when (fsm.currentState()) {
+                TurnstileState.LOCKED   -> "Locked"
+                TurnstileState.UNLOCKED -> "Unlocked"
+            }
+            turnstileState.textContent = text
+            TurnstileEvent.values().forEach { event ->
+                when (event) {
+                    TurnstileEvent.PASS -> passButton.disabled = !fsm.allowed(event)
+                    TurnstileEvent.COIN -> coinButton.disabled = !fsm.allowed(event)
+                }
             }
         }
     }
 
-    fun updateMessage(text: String, error: Boolean) {
+    suspend fun updateMessage(text: String, error: Boolean) {
         val color = if (error) {
             "red"
         } else {
@@ -65,31 +68,42 @@ class TurnstileHandler : Turnstile {
     override val locked: Boolean
         get() = _locked
 
-    override fun lock() {
+    override suspend fun lock() {
         require(!locked) { "Expected to be unlocked" }
         _locked = true
         console.log("lock")
+        updateViewState()
     }
 
-    override fun unlock() {
+    override suspend fun unlock() {
         require(locked) { "Expected to be locked" }
         _locked = false
         console.log("unlock")
+        updateViewState()
     }
 
-    override fun returnCoin() {
+    override suspend fun returnCoin() {
         updateMessage("Return Coin", false)
         console.log("return coin")
+        updateViewState()
     }
-
-    override fun alarm() {
+    override suspend fun timeout() {
+        updateMessage("Timeout", true)
+        console.log("timeout");
+        _locked = true
+        updateViewState()
+    }
+    override suspend fun alarm() {
         updateMessage("Alarm", true)
         console.log("alarm")
+        updateViewState()
     }
 }
 
 fun main() {
     val handler = TurnstileHandler()
     console.log("Handler init")
-    handler.updateViewState()
+    GlobalScope.launch {
+        handler.updateViewState()
+    }
 }

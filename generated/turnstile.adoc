@@ -8,16 +8,41 @@
 | LOCKED
 | COIN
 | UNLOCKED
-|  `{unlock()}`
+a| [source,kotlin]
+----
+{
+unlock()
+}
+----
 
 | UNLOCKED
 | PASS
 | LOCKED
-|  `{lock()}`
+a| [source,kotlin]
+----
+{
+lock()
+}
+----
 
 | UNLOCKED
 | COIN
 | UNLOCKED
-|  `{returnCoin()}`
+a| [source,kotlin]
+----
+{
+returnCoin()
+}
+----
+
+| UNLOCKED
+| <<timeout>>[3000]
+| LOCKED
+a| [source,kotlin]
+----
+{
+timeout()
+}
+----
 |===
 
