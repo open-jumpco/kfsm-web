@@ -40,14 +40,14 @@ class TurnstileFSM(val turnstile: Turnstile) {
                 }
             }
             whenState(TurnstileState.UNLOCKED) {
+                timeout(LOCKED, 3000) {
+                    timeout()
+                }
                 onEvent(TurnstileEvent.PASS to TurnstileState.LOCKED) {
                     lock()
                 }
                 onEvent(TurnstileEvent.COIN) {
                     returnCoin()
-                }
-                timeout(LOCKED, 3000) {
-                    timeout()
                 }
             }
         }.build()
