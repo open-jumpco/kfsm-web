@@ -1,0 +1,48 @@
+== TurnstileFSM State Chart
+
+=== TurnstileFSM State Map
+
+|===
+| Start | Event[Guard] | Target | Action
+
+| LOCKED
+| COIN
+| UNLOCKED
+a| [source,kotlin]
+----
+{
+unlock()
+}
+----
+
+| UNLOCKED
+| \<<timeout>>[3000]
+| LOCKED
+a| [source,kotlin]
+----
+{
+timeout()
+}
+----
+
+| UNLOCKED
+| PASS
+| LOCKED
+a| [source,kotlin]
+----
+{
+lock()
+}
+----
+
+| UNLOCKED
+| COIN
+| UNLOCKED
+a| [source,kotlin]
+----
+{
+returnCoin()
+}
+----
+|===
+
