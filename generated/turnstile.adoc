@@ -16,7 +16,7 @@ unlock()
 ----
 
 | UNLOCKED
-| \<<timeout>>[3000]
+| \<<timeout = 3000>>
 | LOCKED
 a| [source,kotlin]
 ----

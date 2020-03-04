@@ -1,22 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
-buildscript {
-    repositories {
-        mavenLocal()
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.jumpco.open:kfsm-viz-plugin:1.0.4-SNAPSHOT")
-    }
-}
 plugins {
     id("org.jetbrains.kotlin.js") version "1.3.61"
+    id("io.jumpco.open.kfsm.viz-plugin") version "1.0.9"
 }
-
-apply(plugin = "io.jumpco.open.kfsm.viz-plugin")
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
@@ -32,7 +19,7 @@ kotlin {
     }
     sourceSets["main"].dependencies {
         implementation(kotlin("stdlib-js"))
-        implementation("io.jumpco.open:kfsm-js:1.0.2-SNAPSHOT")
+        implementation("io.jumpco.open:kfsm-js:1.0.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
     }
 }
