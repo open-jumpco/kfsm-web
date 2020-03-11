@@ -6,11 +6,11 @@ import com.example.kfsm.TurnstileFSM
 import com.example.kfsm.TurnstileState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLSpanElement
 import kotlin.browser.document
-import kotlin.browser.window
 
 class TurnstileHandler : Turnstile {
     private val fsm: TurnstileFSM
@@ -21,13 +21,18 @@ class TurnstileHandler : Turnstile {
     private var coinButton: HTMLButtonElement
     private var passButton: HTMLButtonElement
 
+    companion object {
+        fun span(id: String) = document.getElementById(id) as HTMLSpanElement
+        fun button(id: String) = document.getElementById(id) as HTMLButtonElement
+    }
+
     init {
         _locked = true
         fsm = TurnstileFSM(this)
-        turnstileState = document.getElementById("turnstileState") as HTMLSpanElement
-        turnstileMessage = document.getElementById("turnstileMessage") as HTMLSpanElement
-        coinButton = document.getElementById("coinButton") as HTMLButtonElement
-        passButton = document.getElementById("passButton") as HTMLButtonElement
+        turnstileState = span("turnstileState")
+        turnstileMessage = span("turnstileMessage")
+        coinButton = button("coinButton")
+        passButton = button("passButton")
         coinButton.addEventListener("click", {
             GlobalScope.launch { fsm.coin() }
         })
@@ -61,8 +66,12 @@ class TurnstileHandler : Turnstile {
         turnstileMessage.style.color = color
         turnstileMessage.style.fontWeight = if (error) "Bold" else "Normal"
         turnstileMessage.textContent = text
-
-        window.setTimeout({ turnstileMessage.textContent = "" }, if (error) 5000 else 2000)
+        if (text.trim().length > 0) {
+            GlobalScope.launch {
+                delay(if (error) 5000 else 2000)
+                turnstileMessage.textContent = ""
+            }
+        }
     }
 
     override val locked: Boolean
@@ -72,6 +81,7 @@ class TurnstileHandler : Turnstile {
         require(!locked) { "Expected to be unlocked" }
         _locked = true
         console.log("lock")
+        updateMessage("", false)
         updateViewState()
     }
 
@@ -79,6 +89,7 @@ class TurnstileHandler : Turnstile {
         require(locked) { "Expected to be locked" }
         _locked = false
         console.log("unlock")
+        updateMessage("", false)
         updateViewState()
     }
 
@@ -87,12 +98,14 @@ class TurnstileHandler : Turnstile {
         console.log("return coin")
         updateViewState()
     }
+
     override suspend fun timeout() {
         updateMessage("Timeout", true)
         console.log("timeout");
         _locked = true
         updateViewState()
     }
+
     override suspend fun alarm() {
         updateMessage("Alarm", true)
         console.log("alarm")

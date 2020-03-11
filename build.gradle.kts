@@ -19,7 +19,7 @@ kotlin {
     }
     sourceSets["main"].dependencies {
         implementation(kotlin("stdlib-js"))
-        implementation("io.jumpco.open:kfsm-js:1.0.2")
+        implementation("io.jumpco.open:kfsm-js:1.0.3-SNAPSHOT")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
     }
 }
