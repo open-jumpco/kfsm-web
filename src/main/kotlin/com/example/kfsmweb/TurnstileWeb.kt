@@ -1,4 +1,4 @@
-package com.example.kfsmjs
+package com.example.kfsmweb
 
 import com.example.kfsm.Turnstile
 import com.example.kfsm.TurnstileEvent
