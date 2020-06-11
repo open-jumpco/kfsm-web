@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
-    id("org.jetbrains.kotlin.js") version "1.3.61"
+    id("org.jetbrains.kotlin.js") version "1.3.72"
     id("io.jumpco.open.kfsm.viz-plugin") version "1.0.9"
 }
 
@@ -18,8 +18,9 @@ kotlin {
 
     }
     sourceSets["main"].dependencies {
-        implementation(kotlin("stdlib-js"))
         implementation("io.jumpco.open:kfsm-js:1.0.3-SNAPSHOT")
+
+        implementation(kotlin("stdlib-js"))
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
     }
 }
