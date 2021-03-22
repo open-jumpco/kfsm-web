@@ -10,7 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLSpanElement
-import kotlin.browser.document
+import kotlinx.browser.document
 
 class TurnstileHandler : Turnstile {
     private val fsm: TurnstileFSM
@@ -66,7 +66,7 @@ class TurnstileHandler : Turnstile {
         turnstileMessage.style.color = color
         turnstileMessage.style.fontWeight = if (error) "Bold" else "Normal"
         turnstileMessage.textContent = text
-        if (text.trim().length > 0) {
+        if (text.trim().isNotEmpty()) {
             GlobalScope.launch {
                 delay(if (error) 5000 else 2000)
                 turnstileMessage.textContent = ""

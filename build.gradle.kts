@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
-    id("org.jetbrains.kotlin.js") version "1.3.72"
-    id("io.jumpco.open.kfsm.viz-plugin") version "1.0.9"
+    id("org.jetbrains.kotlin.js") version "1.4.21"
+    id("io.jumpco.open.kfsm.viz-plugin") version "1.4.0"
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "io.jumpco.open.kfsm.example"
+version = "1.4.0-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -18,7 +18,7 @@ kotlin {
 
     }
     sourceSets["main"].dependencies {
-        implementation("io.jumpco.open:kfsm-js:1.0.3-SNAPSHOT")
+        implementation("io.jumpco.open:kfsm-js:1.4.1")
 
         implementation(kotlin("stdlib-js"))
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
