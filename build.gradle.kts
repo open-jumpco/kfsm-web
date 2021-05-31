@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
-    id("org.jetbrains.kotlin.js") version "1.4.21"
-    id("io.jumpco.open.kfsm.viz-plugin") version "1.4.0"
+    kotlin("js") version "1.4.32"
+    id("io.jumpco.open.kfsm.viz-plugin") version "1.4.32.1"
 }
 
 group = "io.jumpco.open.kfsm.example"
@@ -14,16 +14,19 @@ repositories {
 }
 
 kotlin {
-    target.browser {
+    js {
+        browser {
 
-    }
-    sourceSets["main"].dependencies {
-        implementation("io.jumpco.open:kfsm-js:1.4.1")
-
-        implementation(kotlin("stdlib-js"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3")
+        }
+        binaries.executable()
     }
 }
+
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.4.3")
+    implementation("io.jumpco.open:kfsm-js:1.4.32")
+}
+
 tasks {
     named<Kotlin2JsCompile>("compileKotlinJs") {
         kotlinOptions {
@@ -46,7 +49,7 @@ val assemble by tasks.existing {
 configure<io.jumpco.open.kfsm.gradle.VizPluginExtension> {
     fsm("TurnstileFSM") {
         outputFolder = file("generated")
-        input = file("src/main/kotlin/kfsm/Turnstile.kt")
+        input = file("src/main/kotlin/com/example/kfsm/Turnstile.kt")
         isGeneratePlantUml = true // Required default is false
         isGenerateAsciidoc = true // Required default is false
         output = "turnstile"
