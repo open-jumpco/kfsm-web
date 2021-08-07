@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.Kotlin2JsCompile
 
 plugins {
-    kotlin("js") version "1.4.32"
-    id("io.jumpco.open.kfsm.viz-plugin") version "1.4.32.1"
+    kotlin("js") version "1.5.10"
+    id("io.jumpco.open.kfsm.viz-plugin") version "1.5.0"
 }
 
 group = "io.jumpco.open.kfsm.example"
-version = "1.4.0-SNAPSHOT"
+version = "1.5.0-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -23,8 +23,8 @@ kotlin {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.4.3")
-    implementation("io.jumpco.open:kfsm-js:1.4.32")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.5.0")
+    implementation("io.jumpco.open:kfsm-js:1.5.1")
 }
 
 tasks {

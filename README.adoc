@@ -56,57 +56,11 @@ asyncStateMachine(
     }
 }
 ----
-== Generated State Table
-
-=== TurnstileFSM State Map
-
-|===
-| Start | Event[Guard] | Target | Action
-
-| LOCKED
-| COIN
-| UNLOCKED
-a| [source,kotlin]
-----
-{
-unlock()
-}
-----
-
-| UNLOCKED
-| \<<timeout>>[3000]
-| LOCKED
-a| [source,kotlin]
-----
-{
-timeout()
-}
-----
-
-| UNLOCKED
-| PASS
-| LOCKED
-a| [source,kotlin]
-----
-{
-lock()
-}
-----
-
-| UNLOCKED
-| COIN
-| UNLOCKED
-a| [source,kotlin]
-----
-{
-returnCoin()
-}
-----
-|===
-
-=== Generated State Diagram
+== Generated State Diagram
 
 image:turnstile.png[]
+
+include::generated/turnstile.adoc[]
 
 To learn more about visualization visit link:https://github.com/open-jumpco/kfsm-viz[kfsm-viz] and
 link:https://github.com/open-jumpco/kfsm-viz-plugin[kfsm-viz-plugin]
